@@ -56,8 +56,7 @@ img {
 /** @var \SplFileInfo $file */
 foreach($files as $file)
 {
-//    $path = rawurldecode($file);
-	$path='SVG/'.$file->getBasename();
+    $path = rawurldecode($file);
     $title = preg_replace('/()\.svg$/u', '$1', $file->getBasename());
 	echo <<<HTML
         <img class="icon" src="{$path}" title="{$title}" />\n

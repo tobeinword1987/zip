@@ -103,8 +103,7 @@ $icons = [];
 /** @var \SplFileInfo $file */
 foreach($files as $file)
 {
-//    $path = rawurldecode($file);
-    $path='SVG/'.$file->getBasename();
+    $path = rawurldecode($file);
     $title = preg_replace('/()\.svg$/u', '$1', $file->getBasename());
     $iconName = preg_replace('/(.+)_\d/', '$1', $title);
 
