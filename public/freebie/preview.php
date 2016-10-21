@@ -38,7 +38,7 @@ if (!$options['--path']) {
     return;
 }
 if (!is_dir($options['--path'])) {
-    echo '--path=', $options['--path'], ' not a folder', PHP_EOL;
+//    echo '--path=', $options['--path'], ' not a folder', PHP_EOL;
     return;
 }
 $templatePath = __DIR__.'/templates/' . $options['--template'] . '.phtml';
@@ -46,6 +46,8 @@ if (!is_file($templatePath)) {
 //    echo '--template=', $options['--template'], ' not found', PHP_EOL;
     return;
 }
+
+$zip = zip_open("211016.zip");
 
 $files = [];
 $dirIterator = new \RecursiveDirectoryIterator($options['--path']);
@@ -68,7 +70,6 @@ foreach($fileIterator as $file) {
     } else {
         $files[(string)$file] = $file;
     }
-
 }
 if($options['--template'] == 'office') {
     $filesForSort = $files;
