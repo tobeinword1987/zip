@@ -11,14 +11,6 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('zip');
-//});
-
 Route::get('/', 'ZipController@firstPage');
-
-Route::get('/getTemplatesOfGenerator','ZipController@getTemplatesOfGenerator');
-
-Route::get('/getPromoFiles','ZipController@getPromoFiles');
 
 Route::post('/','ZipController@uploadZip');
