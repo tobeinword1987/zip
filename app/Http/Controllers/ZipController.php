@@ -92,27 +92,23 @@ class ZipController extends Controller
             "License:".$linkToLicence.PHP_EOL.
             $licenceText.PHP_EOL.'Have comments? You are very welcome! ['.$linkToCollection.']';
 
-        $dir = env('TEMPDIR');
         $newFile = date("dmy").'.zip';
-        $extractDir = $dir.date("dmy").'/';
+        $extractDir = date("dmy").'/';
         $stuffersDir = env('PROMO').'/';
-
-        $this->delete($dir);
-        mkdir($dir);
 
         //copy zip to temp/date.zip directory
         $file = array_get($input,'zip');
-        copy($file,$dir.$newFile);
+        copy($file,$newFile);
 
         //extract date.zip to temp/date/ directory
         $zip = new ZipArchive();
-        if ($zip->open($dir.$newFile) === TRUE) {
+        if ($zip->open($newFile) === TRUE) {
             $zip->extractTo($extractDir);
             $zip->close();
         }
 
         $zip = new ZipArchive;
-        if ($zip->open($dir.date("dmy").'.zip') === TRUE) {
+        if ($zip->open(date("dmy").'.zip') === TRUE) {
             foreach($letters as $stuffer) {
                 $content = file_get_contents($stuffersDir.$stuffer);
                 $zip->addFromString($stuffer, $content);
@@ -123,22 +119,25 @@ class ZipController extends Controller
         //generate html
         $options = array(
             '--template'      => $request->optionsRadios,
-            '--path'    => env('TEMPDIR').date("dmy").'/SVG',
-            '--out'     => env('TEMPDIR').'preview.html',
+            '--path'    => date("dmy").'/SVG',
+            '--out'     => 'preview.html',
         );
 
         include_once env('GENERATOR');
 
         //add comment to zip
         $zip = new ZipArchive;
-        $res = $zip->open($dir.date("dmy").'.zip', ZipArchive::CREATE);
+        $res = $zip->open(date("dmy").'.zip', ZipArchive::CREATE);
         if ($res === TRUE) {
             $zip->setArchiveComment($comment);
             $zip->close();
         }
 
         //return path to zip to the user
-        $message = 'New zip saved to '.$_SERVER['HTTP_HOST'].'/temp/'.date("dmy").'.zip';
+        $message = 'New zip saved to '.$_SERVER['HTTP_HOST'].'/'.date("dmy").'.zip';
+
+        $this->delete(date("dmy"));
+        unlink('preview.html');
         return $this->firstPage($message);
     }
 
