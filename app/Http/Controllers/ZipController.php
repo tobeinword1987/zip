@@ -119,7 +119,7 @@ class ZipController extends Controller
         //generate html
         $options = array(
             '--template'      => $request->optionsRadios,
-            '--path'    => date("dmy").'/SVG',
+            '--path'    => date("dmy"),
             '--out'     => 'preview.html',
         );
 
@@ -137,7 +137,9 @@ class ZipController extends Controller
         $message = 'New zip saved to '.$_SERVER['HTTP_HOST'].'/'.date("dmy").'.zip';
 
         $this->delete(date("dmy"));
-        unlink('preview.html');
+        if (is_file('preview.html')) {
+            unlink('preview.html');
+        }
         return $this->firstPage($message);
     }
 
