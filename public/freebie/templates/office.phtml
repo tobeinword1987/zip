@@ -86,6 +86,7 @@
 		<?php
 		foreach ($sizeFiles as $size => $file) {
 			$path = rawurldecode($file);
+			$path = substr($path, strpos($path, '/')+1);
 			$title = preg_replace('/()\.svg$/u', '$1', $file->getBasename());
 			echo <<<HTML
 <div class="one-icon"><img class="icon icon_{$size}" src="{$path}" title="{$title}" /></div>\n
