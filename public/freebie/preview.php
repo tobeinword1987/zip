@@ -43,7 +43,7 @@ if (!is_dir($options['--path'])) {
 }
 $templatePath = __DIR__.'/templates/' . $options['--template'] . '.phtml';
 if (!is_file($templatePath)) {
-    echo '--template=', $options['--template'], ' not found', PHP_EOL;
+//    echo '--template=', $options['--template'], ' not found', PHP_EOL;
     return;
 }
 
