@@ -100,36 +100,30 @@ class ZipController extends Controller
         $file = array_get($input,'zip');
         copy($file,$newFile);
 
-        //extract date.zip to temp/date/ directory
+
         $zip = new ZipArchive();
         if ($zip->open($newFile) === TRUE) {
+            //extract date.zip to temp/date/ directory
             $zip->extractTo($extractDir);
-            $zip->close();
-        }
 
-        $zip = new ZipArchive;
-        if ($zip->open(date("dmy").'.zip') === TRUE) {
+            //put promo to zip
             foreach($letters as $stuffer) {
                 $content = file_get_contents($stuffersDir.$stuffer);
                 $zip->addFromString($stuffer, $content);
             }
-            $zip->close();
-        }
 
-        //generate html
-        $options = array(
-            '--template'      => $request->optionsRadios,
-            '--path'    => date("dmy"),
-            '--out'     => 'preview.html',
-        );
+            //generate html
+            $options = array(
+                '--template'      => $request->optionsRadios,
+                '--path'    => date("dmy"),
+                '--out'     => 'preview.html',
+            );
 
-        include_once env('GENERATOR');
+            include_once env('GENERATOR');
 
-        //add comment to zip
-        $zip = new ZipArchive;
-        $res = $zip->open(date("dmy").'.zip', ZipArchive::CREATE);
-        if ($res === TRUE) {
+            //add comment to zip
             $zip->setArchiveComment($comment);
+
             $zip->close();
         }
 

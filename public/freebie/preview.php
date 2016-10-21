@@ -90,6 +90,5 @@ if ('--' == $options['--out']) {
     $zip = new ZipArchive;
     if ($zip->open(date("dmy").'.zip') === TRUE) {
             $zip->addFromString('preview.html', $content);
-        $zip->close();
     }
 }
