@@ -19,10 +19,8 @@ class ZipController extends Controller
         $dir = env('TEMPLATES');
         $filesInDir = scandir($dir);
 
-        foreach ($filesInDir as $key)
-        {
-            if (filetype($dir.'/'.$key)!='dir')
-            {
+        foreach ($filesInDir as $key) {
+            if (filetype($dir.'/'.$key)!='dir') {
                 $info = pathinfo($key);
                 $file_name =  basename($key,'.'.$info['extension']);
                 $templatesOfGenerator[]= $file_name;
@@ -36,10 +34,8 @@ class ZipController extends Controller
         $dir = env('PROMO');
         $filesInDir = scandir($dir);
 
-        foreach ($filesInDir as $key)
-        {
-            if (filetype($dir.'/'.$key)!='dir')
-            {
+        foreach ($filesInDir as $key) {
+            if (filetype($dir.'/'.$key)!='dir') {
                 $promoFiles[]= $key;
             }
         }
