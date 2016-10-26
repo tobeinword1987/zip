@@ -37,7 +37,7 @@ margin-right: 6px;
 <body id="app-layout">
    @if (session('message'))
    <div class="alert alert-success">
-   {{ session('message') }}
+     <a href="{{ session('message') }}">Generated zip</a>
    </div>
    @endif
 

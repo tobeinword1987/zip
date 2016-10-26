@@ -56,6 +56,8 @@ class ZipController extends Controller
     {
         $input = Input::all();
 
+        $request->flash();
+
         $rules = array(
             'zip' => 'required|Mimes:zip',
             'optionsRadios' => 'required',
@@ -92,10 +94,10 @@ class ZipController extends Controller
         $extractDir = date("dmy").'/';
         $stuffersDir = env('PROMO').'/';
 
-        //copy zip to temp/date.zip directory
+        //copy zip to public directory
         $file = array_get($input,'zip');
+        $newFile = $_FILES['zip']['name'];
         copy($file,$newFile);
-
 
         $zip = new ZipArchive();
         if ($zip->open($newFile) === TRUE) {
@@ -124,7 +126,8 @@ class ZipController extends Controller
         }
 
         //return path to zip to the user
-        $message = 'New zip saved to '.$_SERVER['HTTP_HOST'].'/'.date("dmy").'.zip';
+        $message = $_SERVER['HTTP_HOST'].'/'.$newFile;
+        $message = $newFile;
 
         $this->delete(date("dmy"));
         if (is_file('preview.html')) {
