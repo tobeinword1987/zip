@@ -35,6 +35,20 @@ margin-right: 6px;
 <script src="js\script.js"></script>
 </head>
 <body id="app-layout">
+<!-- static navbar -->
+   <nav class="navbar navbar-default navbar-static-top">
+         <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+               <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Templates <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                     <li><a href="#">Upload</a></li>
+                     <li><a href="#">Edit</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div><!--/.nav-collapse -->
+   </nav>
    @if (session('message'))
    <div class="alert alert-success">
      <a href="{{ session('message') }}">Generated zip</a>
