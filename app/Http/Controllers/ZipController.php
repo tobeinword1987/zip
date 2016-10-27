@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\History;
+use GetFreebieFiles;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
@@ -11,46 +12,14 @@ use File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 
-
 class ZipController extends Controller
 {
     var $serverPath;
 
-    public function getTemplatesOfGenerator()
-    {
-        $dir = env('TEMPLATES');
-        $filesInDir = scandir($dir);
-
-        foreach ($filesInDir as $key) {
-            if (filetype($dir.'/'.$key)!='dir') {
-                $info = pathinfo($key);
-                $file_name =  basename($key,'.'.$info['extension']);
-                $templatesOfGenerator[]= $file_name;
-            }
-        }
-        return $templatesOfGenerator;
-    }
-    
-    public function getPromoFiles()
-    {
-        $dir = env('PROMO');
-        $filesInDir = scandir($dir);
-
-        foreach ($filesInDir as $key) {
-            if (filetype($dir.'/'.$key)!='dir') {
-                $promoFiles[]= $key;
-            }
-        }
-        return $promoFiles;
-    }
-
     public function firstPage($message=null)
     {
-        $promoFiles = $this->getPromoFiles();
-        $templatesOfGenerator = $this->getTemplatesOfGenerator();
-        if (!empty($message)) {
-            Session::flash('message',$message);
-        }
+        $promoFiles = GetFreebieFiles::getPromoFiles();
+        $templatesOfGenerator = GetFreebieFiles::getTemplatesOfGenerator();
         return view('zip', array('promoFiles' => $promoFiles, 'templatesOfGenerator' =>$templatesOfGenerator, 'message' => $message));
     }
     

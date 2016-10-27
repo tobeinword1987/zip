@@ -14,3 +14,9 @@
 Route::get('/', 'ZipController@firstPage');
 
 Route::post('/','ZipController@uploadZip');
+
+Route::get('/uploadTemplates', 'TemplateController@uploadTemplates');
+
+Route::post('/uploadTemplates', 'TemplateController@addReplaceTemplates');
+
+Route::get('/editTemplates', 'TemplateController@editTemplates');
