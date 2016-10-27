@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Session;
 
 class ZipController extends Controller
 {
+    var $serverPath;
+
     public function getTemplatesOfGenerator()
     {
         $dir = env('TEMPLATES');
@@ -54,9 +56,15 @@ class ZipController extends Controller
     
     public function uploadZip(Request $request)
     {
+        $tempDir = env('TEMPDIR');
+
+        if(!is_dir($tempDir)) {
+            mkdir($tempDir);
+        }
+        
         $input = Input::all();
 
-        $request->flash();
+//        $request->flash();
 
         $rules = array(
             'zip' => 'required|Mimes:zip',
@@ -90,19 +98,41 @@ class ZipController extends Controller
             "License:".$linkToLicence.PHP_EOL.
             $licenceText.PHP_EOL.'Have comments? You are very welcome! ['.$linkToCollection.']';
 
-        $newFile = date("dmy").'.zip';
         $extractDir = date("dmy").'/';
         $stuffersDir = env('PROMO').'/';
 
         //copy zip to public directory
         $file = array_get($input,'zip');
         $newFile = $_FILES['zip']['name'];
-        copy($file,$newFile);
+
+        if ($tempDir.$newFile == $request->serverPath) {
+            $this->serverPath = $request->serverPath;
+//            echo "zip is already generated";
+        } else {
+            $this->serverPath = $tempDir.$newFile;
+//            echo "there is no such zip? i copy it";
+            copy($file,$tempDir.$newFile);
+        }
+
+        $request->flash();
+
+        $request->session()->put('serverPath',$this->serverPath);
 
         $zip = new ZipArchive();
-        if ($zip->open($newFile) === TRUE) {
+        if ($zip->open($tempDir.$newFile) === TRUE) {
             //extract date.zip to temp/date/ directory
             $zip->extractTo($extractDir);
+
+            //read dir to find all promo (pdf) files in it
+            $promoFiles = scandir($extractDir);
+            foreach ($promoFiles as $promoFile){
+                if (is_file($extractDir.$promoFile)) {
+                    if (($this->getExtension($promoFile) == 'pdf') and (!in_array($promoFile, $letters))) {
+                        //удалим из архива лишние файлы, образовавшиеся вследствии наложения без загрузки архива
+                        $zip->deleteName($promoFile);
+                    }
+                }
+            }
 
             //put promo to zip
             foreach($letters as $stuffer) {
@@ -127,7 +157,7 @@ class ZipController extends Controller
 
         //return path to zip to the user
         $message = $_SERVER['HTTP_HOST'].'/'.$newFile;
-        $message = $newFile;
+        $message = $tempDir.$newFile;
 
         $this->delete(date("dmy"));
         if (is_file('preview.html')) {
@@ -151,5 +181,10 @@ class ZipController extends Controller
             return unlink($path);
         }
         return false;
+    }
+
+    function getExtension($filename) {
+        $path_info = pathinfo($filename);
+        return $path_info['extension'];
     }
 }

@@ -88,7 +88,7 @@ if ('--' == $options['--out']) {
 } else {
     file_put_contents($options['--out'], $content);
     $zip = new ZipArchive;
-    if ($zip->open($newFile) === TRUE) {
+    if ($zip->open($tempDir.$newFile) === TRUE) {
             $zip->addFromString('preview.html', $content);
     }
 }

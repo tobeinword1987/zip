@@ -57,6 +57,7 @@ margin-right: 6px;
          <label class="control-label">ZIP</label><br>
          <div class="inputZip">
             <input type="file" id="zip" name="zip" accept=".zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" value="{{ Input::old('zip') }}">
+            <input type="hidden" name="serverPath" value="{{ session('serverPath') }}">
          </div>
          </div><br>
          <div class="form-group">
