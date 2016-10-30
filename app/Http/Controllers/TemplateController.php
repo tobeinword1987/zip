@@ -20,6 +20,41 @@ class TemplateController extends Controller
         return view('templates',array('message' => $message, 'templatesOfGenerator' =>$templatesOfGenerator));
     }
 
+    public function editTemplates($message = null)
+    {
+        $templatesOfGenerator = GetFreebieFiles::getTemplatesOfGenerator();
+        return view('editTemplates',array('message' => $message, 'templatesOfGenerator' =>$templatesOfGenerator));
+    }
+
+    public function saveTemplate(Request $request)
+    {
+        $dirOldTemplates = env('FREEBIE').'OldTemplates';
+        //save file to another location
+        if(!is_dir($dirOldTemplates)) {
+            mkdir($dirOldTemplates);
+        }
+        $template = $request->chooseTemplate;
+        $oldTemplate = date("dmy").'-'.$template.'.phtml';
+        copy(env('TEMPLATES').'/'.$template.'.phtml',$dirOldTemplates.'/'.$oldTemplate);
+        //rewrite the existing file
+        $newTemplate = $request->editTemplateText;
+        $f=fopen(env('TEMPLATES').'/'.$template.'.phtml','w');
+        fwrite($f,$newTemplate);
+        fclose($f);
+
+        $message = "Template '".$template.'.phtml'.'\' was successfully saved to server';
+
+        return $this->editTemplates($message);
+    }
+
+    public function getTemplateText()
+    {
+        $template = $_GET['data'];
+        $path = env('TEMPLATES').'/'.$template.'.phtml';
+        $content = file_get_contents($path);
+        return $content;
+    }
+
     public function addReplaceTemplates(Request $request)
     {
         $input = Input::all();

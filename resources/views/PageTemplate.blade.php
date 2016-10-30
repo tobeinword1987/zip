@@ -29,6 +29,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="js\script.js"></script>
+    <script src="js\codemirror\lib\codemirror.js"></script>
+    <script src="js\codemirror\mode\javascript\javascript.js"></script>
+    <script src="js\codemirror\mode\php\php.js"></script>
+    <script src="js\codemirror\mode\clike\clike.js"></script>
+    <link rel="stylesheet" href="js\codemirror\lib\codemirror.css">
+    {{--<link rel="stylesheet" href="js\codemirror\theme\dracula.css">--}}
 </head>
 <body id="app-layout">
     <!-- static navbar -->
@@ -42,7 +48,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Templates <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/uploadTemplates">Upload</a></li>
-                        <li><a href="#">Edit</a></li>
+                        <li><a href="/editTemplates">Edit</a></li>
                     </ul>
                 </li>
             </ul>

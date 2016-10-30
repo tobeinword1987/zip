@@ -1,6 +1,14 @@
 /**
  * Created by lyudmila on 07.10.16.
  */
+var myCodeMirror;
+
+window.onload = function() {
+     myCodeMirror = CodeMirror.fromTextArea(document.getElementById('editTemplateText'), {
+        lineNumbers: true,               // показывать номера строк
+    });
+};
+
 $(document).ready(function() {
     $('.preview').click(function(){
         var commentZip="Author:icons8\n"+
@@ -9,5 +17,18 @@ $(document).ready(function() {
                 $('#licenceText').val()+'\n\n'+
                 'Have comments? You are very welcome! ['+$('#linkToCollection').val()+']';
         $('#zipComment').html(commentZip);
+    });
+
+    $(".dropdown-menu li a").click(function(){
+        // $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+        // $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+        $('#chooseTemplate').val($(this).text());
+        //inser text from file to textarea
+        $.ajax({
+            url: "/getTemplateText",
+            data: "data="+$(this).text()
+        }).done(function(msg) {
+            myCodeMirror.getDoc().setValue(msg);
+        });
     });
 });

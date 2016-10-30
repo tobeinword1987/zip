@@ -20,3 +20,7 @@ Route::get('/uploadTemplates', 'TemplateController@uploadTemplates');
 Route::post('/uploadTemplates', 'TemplateController@addReplaceTemplates');
 
 Route::get('/editTemplates', 'TemplateController@editTemplates');
+
+Route::get('/getTemplateText', 'TemplateController@getTemplateText');
+
+Route::post('/saveTemplate', 'TemplateController@saveTemplate');
