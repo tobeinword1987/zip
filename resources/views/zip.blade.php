@@ -1,12 +1,14 @@
 <?php
 use Illuminate\Support\Facades\Input;
+        $generated_arr = explode('/',$message);
+        $generated = array_pop($generated_arr);
 ?>
 @extends('PageTemplate')
 
 @section('bodyContent')
    @if (!empty($message))
    <div class="alert alert-success">
-     <a href="{{ $message }}">Generated zip</a>
+     <a href="{{ $message }}">Download prepared "{{ $generated }}"</a>
    </div>
    @endif
 
@@ -26,6 +28,9 @@ use Illuminate\Support\Facades\Input;
          <label class="control-label">ZIP</label><br>
          <div class="inputZip">
             <input type="file" id="zip" name="zip" accept=".zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" value="{{ Input::old('zip') }}">
+            @if(!empty(session('serverPath')))
+               use uploaded "{{ session('serverPath') }}" or download new one
+            @endif
             <input type="hidden" name="serverPath" value="{{ session('serverPath') }}">
          </div>
          </div><br>

@@ -35,19 +35,34 @@ class ZipController extends Controller
 
 //        $request->flash();
 
-        $rules = array(
-            'zip' => 'required|Mimes:zip',
-            'optionsRadios' => 'required',
-            'collectionName' => 'required',
-            'linkToCollection' => 'required',
-            'linkToLicence' => 'required',
-            'licenceText' => 'required',
-            'checkbox' => 'required'
-        );
+        if(!empty($request->serverPath)){
+            $rules = array(
+//            'zip' => 'required|Mimes:zip',
+                'serverPath' => 'required',
+                'optionsRadios' => 'required',
+                'collectionName' => 'required',
+                'linkToCollection' => 'required',
+                'linkToLicence' => 'required',
+                'licenceText' => 'required',
+                'checkbox' => 'required'
+            );
+        } else {
+            $rules = array(
+                'zip' => 'required|Mimes:zip',
+                'optionsRadios' => 'required',
+                'collectionName' => 'required',
+                'linkToCollection' => 'required',
+                'linkToLicence' => 'required',
+                'licenceText' => 'required',
+                'checkbox' => 'required'
+            );
+        }
+
 
         $messages = [
             'checkbox.required' => 'You have to check at least one of the Promo files!',
             'optionsRadios.required' => 'You have to check one  Preview template!',
+            'serverPath.required' => 'You have to choose file for upload!'
         ];
 
         $validator = Validator::make(Input::all(), $rules, $messages);
@@ -74,7 +89,12 @@ class ZipController extends Controller
         $file = array_get($input,'zip');
         $newFile = $_FILES['zip']['name'];
 
-        if ($tempDir.$newFile == $request->serverPath) {
+        $directory = $tempDir.$newFile;
+        if((empty($file)) and (!empty($request->serverPath))) {
+            $this->serverPath = $request->serverPath;
+            $newFile = $request->serverPath;
+            $directory = $newFile;
+        } else if ($tempDir.$newFile == $request->serverPath) {
             $this->serverPath = $request->serverPath;
 //            echo "zip is already generated";
         } else {
@@ -88,8 +108,9 @@ class ZipController extends Controller
         $request->session()->put('serverPath',$this->serverPath);
 
         $zip = new ZipArchive();
-        if ($zip->open($tempDir.$newFile) === TRUE) {
-            //extract date.zip to temp/date/ directory
+
+        if ($zip->open($directory) === TRUE) {
+            //extract date.zip to date/ directory
             $zip->extractTo($extractDir);
 
             //read dir to find all promo (pdf) files in it
@@ -126,7 +147,7 @@ class ZipController extends Controller
 
         //return path to zip to the user
         $message = $_SERVER['HTTP_HOST'].'/'.$newFile;
-        $message = $tempDir.$newFile;
+        $message = $directory;
 
         $this->delete(date("dmy"));
         if (is_file('preview.html')) {
