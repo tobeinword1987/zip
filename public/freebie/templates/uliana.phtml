@@ -58,7 +58,6 @@
         foreach($files as $file)
         {
             $path = rawurldecode($file);
-            $path = substr($path, strpos($path, '/')+1);
             $title = preg_replace('/()\.svg$/u', '$1', $file->getBasename());
             echo "<img class=\"icon\" src=\"{$path}\" title=\"{$title}\" />\n        ";
         } ?>

@@ -75,6 +75,18 @@ class TemplateController extends Controller
 
         $templatesDir = env('TEMPLATES');
 
+        $dirOldTemplates = env('FREEBIE').'OldTemplates';
+        //save file to another location
+        if(!is_dir($dirOldTemplates)) {
+            mkdir($dirOldTemplates);
+        }
+
+        if(is_file(env('TEMPLATES').'/'.$newFile)){
+            $template = $request->template;
+            $oldTemplate = date("dmy_H_i_s").'-'.$newFile;
+            copy(env('TEMPLATES').'/'.$newFile,$dirOldTemplates.'/'.$oldTemplate);
+        }
+
         copy($file,$templatesDir.'/'.$newFile);
 
         //return path to zip to the user

@@ -19,6 +19,10 @@ Route::get('/uploadTemplates', 'TemplateController@uploadTemplates');
 
 Route::post('/uploadTemplates', 'TemplateController@addReplaceTemplates');
 
+Route::get('/uploadPromo', 'PromoController@uploadPromo');
+
+Route::post('/uploadPromo', 'PromoController@addReplacePromo');
+
 Route::get('/editTemplates', 'TemplateController@editTemplates');
 
 Route::get('/getTemplateText', 'TemplateController@getTemplateText');
