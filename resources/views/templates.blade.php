@@ -33,9 +33,9 @@ use Illuminate\Support\Facades\Input;
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label previewTemplate">Preview templates</label>
-                    <ul>
+                    <ul class="linkForEditTemplate">
                     @foreach($templatesOfGenerator as $template)
-                        <li>{{ $template }}</li>
+                        <li><a href="/editTemplates?chooseTemplate={{ $template }}">{{ $template }}</a></li>
                     @endforeach
                     </ul>
                 </div>

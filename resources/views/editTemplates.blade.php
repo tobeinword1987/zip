@@ -4,6 +4,22 @@ use Illuminate\Support\Facades\Input;
 @extends('PageTemplate')
 
 @section('bodyContent')
+    <script>
+        $(document).ready(function() {
+            data1 = '{{ isset($_GET['chooseTemplate'])?$_GET['chooseTemplate']:'' }}'
+            if(data1!=''){
+                //insert text from file to textarea
+                $('#chooseTemplate').val(data1);
+                $('#chooseTemplateHidden').val(data1);
+                $.ajax({
+                    url: "/getTemplateText",
+                    data: "data=" + data1
+                }).done(function (msg) {
+                    myCodeMirror.getDoc().setValue(msg);
+                });
+            }
+        });
+    </script>
     @if (!empty($message) and (substr($message,0,5)!="Error"))
         <div class="alert alert-success">
             {{ $message }}

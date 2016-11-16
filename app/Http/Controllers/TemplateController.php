@@ -34,7 +34,7 @@ class TemplateController extends Controller
             mkdir($dirOldTemplates);
         }
         $template = $request->chooseTemplate;
-        if($template!='Choose template'){
+        if($template!='choose template'){
             $oldTemplate = date("dmy_H_i_s").'-'.$template.'.phtml';
             copy(env('TEMPLATES').'/'.$template.'.phtml',$dirOldTemplates.'/'.$oldTemplate);
             //rewrite the existing file
