@@ -29,7 +29,8 @@ use Illuminate\Support\Facades\Input;
                 <div class="col-sm-12">
                     <label class="control-label">Choose template</label><br>
                     <div class="dropdown">
-                        <input class="btn btn-primary dropdown-toggle" type="text" data-toggle="dropdown" name="chooseTemplate" id="chooseTemplate" value="{{ isset($_POST['chooseTemplate'])?$_POST['chooseTemplate']:'choose template' }}">
+                        <input class="btn btn-primary dropdown-toggle" type="hidden" data-toggle="dropdown" name="chooseTemplate" id="chooseTemplateHidden" value="{{ isset($_POST['chooseTemplate'])?$_POST['chooseTemplate']:'choose template' }}">
+                        <input class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"  id="chooseTemplate" value="{{ isset($_POST['chooseTemplate'])?$_POST['chooseTemplate']:'choose template' }}">
                         <ul class="dropdown-menu">
                             @foreach($templatesOfGenerator as $template)
                                 <li><a href="#">{{ $template }}</a></li>

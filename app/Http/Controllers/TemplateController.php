@@ -39,7 +39,7 @@ class TemplateController extends Controller
             copy(env('TEMPLATES').'/'.$template.'.phtml',$dirOldTemplates.'/'.$oldTemplate);
             //rewrite the existing file
             $newTemplate = $request->editTemplateText;
-
+            
             //create temp file
             $tmpfname = tempnam("/tmp", $template);
 

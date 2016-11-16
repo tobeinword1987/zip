@@ -24,6 +24,7 @@ $(document).ready(function() {
         // $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
         // $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
         $('#chooseTemplate').val($(this).text());
+        $('#chooseTemplateHidden').val($(this).text());
         //inser text from file to textarea
         $.ajax({
             url: "/getTemplateText",
