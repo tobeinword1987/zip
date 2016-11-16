@@ -25,7 +25,8 @@ use Illuminate\Support\Facades\Input;
                 <div class="form-group">
                     <label class="control-label">Browse template</label><br>
                     <div class="inputZip">
-                        <input type="file" id="template" name="template" accept=".phtml" value="{{ Input::old('template') }}">
+                        <input type="file" id="template" name="template" accept=".phtml" value="{{ Input::old('template') }}"><br>
+                        <button class="btn btn-sbm btn-info" name="uploadButton" value="Upload">Upload</button>
                     </div>
                 </div><br>
             </div>
@@ -38,11 +39,6 @@ use Illuminate\Support\Facades\Input;
                     @endforeach
                     </ul>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12" style="text-align: center">
-                <button class="btn btn-sbm btn-info" name="uploadButton" value="Upload">Upload</button>
             </div>
         </div>
     </form>

@@ -10,6 +10,7 @@ window.onload = function() {
 };
 
 $(document).ready(function() {
+
     $('.preview').click(function(){
         var commentZip="Author:icons8\n"+
                 "Link:https://icons8.com\n"+
@@ -31,4 +32,5 @@ $(document).ready(function() {
             myCodeMirror.getDoc().setValue(msg);
         });
     });
+
 });

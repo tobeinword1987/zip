@@ -34,15 +34,32 @@ class TemplateController extends Controller
             mkdir($dirOldTemplates);
         }
         $template = $request->chooseTemplate;
-        $oldTemplate = date("dmy_H_i_s").'-'.$template.'.phtml';
-        copy(env('TEMPLATES').'/'.$template.'.phtml',$dirOldTemplates.'/'.$oldTemplate);
-        //rewrite the existing file
-        $newTemplate = $request->editTemplateText;
-        $f=fopen(env('TEMPLATES').'/'.$template.'.phtml','w');
-        fwrite($f,$newTemplate);
-        fclose($f);
+        if($template!='Choose template'){
+            $oldTemplate = date("dmy_H_i_s").'-'.$template.'.phtml';
+            copy(env('TEMPLATES').'/'.$template.'.phtml',$dirOldTemplates.'/'.$oldTemplate);
+            //rewrite the existing file
+            $newTemplate = $request->editTemplateText;
 
-        $message = "Template '".$template.'.phtml'.'\' was successfully saved to server';
+            //create temp file
+            $tmpfname = tempnam("/tmp", $template);
+
+            $handle = fopen($tmpfname, "w");
+            fwrite($handle, $newTemplate);
+            fclose($handle);
+
+            if( substr($output = shell_exec('php -l '.$tmpfname), 0, 16) == 'No syntax errors') {
+                $f=fopen(env('TEMPLATES').'/'.$template.'.phtml','w');
+                fwrite($f,$newTemplate);
+                fclose($f);
+                $message = "Template '".$template.'.phtml'.'\' was successfully saved to server';
+            } else {
+                $message = "Error parsing!";
+            }
+
+            unlink($tmpfname);
+        } else {
+            $message = "You don't choose any template!";
+        }
 
         return $this->editTemplates($message);
     }
