@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Input;
                     <label class="control-label previewTemplate">Preview promo files</label>
                     <ul>
                         @foreach($promoFiles as $promo)
-                            <li>{{ $promo }}</li>
+                            <li><a href="{{ env('PROMO').'/'.$promo }}">{{ $promo }}</a></li>
                         @endforeach
                     </ul>
                 </div>
