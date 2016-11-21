@@ -90,6 +90,9 @@ class TemplateController extends Controller
         $file = array_get($input,'template');
         $newFile = $_FILES['template']['name'];
 
+        //Заменим расширение у файла на phtml
+        $newFile = $this->replace_extension_template($newFile);
+
         $templatesDir = env('TEMPLATES');
 
         $dirOldTemplates = env('FREEBIE').'OldTemplates';
@@ -110,5 +113,13 @@ class TemplateController extends Controller
         $message = "'".$newFile.'\' was successfully added to server';
 
         return $this->uploadTemplates($message);
+    }
+
+    //Функция замены расширения темплейта
+    public function replace_extension_template($filename){
+        $path_info = pathinfo($filename);
+        $index = strripos($filename, $path_info['extension']);
+        $filename = substr($filename, 0, $index).'phtml';
+        return $filename;
     }
 }

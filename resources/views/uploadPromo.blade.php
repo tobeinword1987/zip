@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Input;
             <input type="hidden" name="_token" value="<?php echo csrf_token() ?>">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="control-label">Browse promo</label><br>
+                    <label class="control-label">Browse promo (file should be less than 1MB)</label><br>
                     <div class="inputZip">
                         <input type="file" id="promo" name="promo" accept=".pdf" value="{{ Input::old('template') }}">
                         <br>
